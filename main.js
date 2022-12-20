@@ -1,12 +1,36 @@
 let usuario = 0
 
-let remeras= 5
-let buzos = 5
-let jeans = 5
+let stock =[
 
-let precioReme = 12
-let precioBuzos = 17
-let precioJeans = 20
+    {remera:[
+        {id:1,tipo:"remera",color:"azul",talle:"L",precio:3500,cantidad:5},
+        {id:2,tipo:"remera",color:"rojo",talle:"L",precio:3500,cantidad:5},
+        {id:3,tipo:"remera",color:"negro",talle:"XL",precio:3500,cantidad:5},
+        {id:4,tipo:"remera",color:"negro",talle:"M",precio:3500,cantidad:5},
+    ]},
+    {buzo:[
+        {id:1,tipo:"buzo",color:"azul",talle:"L",precio:5200,cantidad:5},
+        {id:2,tipo:"buzo",color:"rojo",talle:"L",precio:5200,cantidad:5},
+        {id:3,tipo:"buzo",color:"negro",talle:"XL",precio:5200,cantidad:5},
+        {id:4,tipo:"buzo",color:"negro",talle:"M",precio:5200,cantidad:5},
+    ]},
+    {jean:[
+        {id:1,tipo:"jean",color:"azul",talle:"36",precio:6500,cantidad:5},
+        {id:2,tipo:"jean",color:"rojo",talle:"50",precio:6500,cantidad:5},
+        {id:3,tipo:"jean",color:"negro",talle:"48",precio:6500,cantidad:5},
+        {id:4,tipo:"jean",color:"negro",talle:"44",precio:6500,cantidad:5},
+    ]}
+]
+for (const key in stock) {
+
+    console.log(stock[key]);
+
+    for (const clave in stock[key]) {
+        console.log(clave);
+    }
+    
+}
+
 
 let total = 0
 
@@ -53,56 +77,35 @@ function admin() {
         switch (stock) {
             //cantidad de remeras
             case 1:
-                while (true) {
-                    let agregaRemeras = parseInt(prompt("Ingrese la cantidad que quiere almacenar en remeras"))
-
-                    if(!isNaN(agregaRemeras)){
-                        remeras = remeras + agregaRemeras
-                        console.log("Cantidad de remeras " + remeras)
-                        break
-                    }
-                    else{
-                        console.log("El dato ingresado no es un numero")
-                        continue
-                    }
-                }
+                agregar("remera")
                 
                 break;
             //cantidad de buzos
             case 2:
-                while (true) {
-                    let agregaBuzos = parseInt(prompt("Ingrese la cantidad que quiere almacenar en buzos"))
+                agregar("buzo")
 
-                    if(!isNaN(agregaBuzos)){
-                        buzos = buzos + agregaBuzos
-                        console.log("Cantidad de buzos " + buzos)
-                        break
-                    }
-                    else{
-                        console.log("El dato ingresado no es un numero")
-                        continue
-                    }
-                }
                 break;
             //cantidad de jeans
             case 3:
-                while (true) {
-                    let agregaJeans = parseInt(prompt("Ingrese la cantidad que quiere almacenar en jeans"))
+                agregar("jean")
 
-                    if(!isNaN(agregaJeans)){
-                        jeans = jeans + agregaJeans
-                        console.log("Cantidad de jeans " + jeans)
-                        break
-                    }
-                    else{
-                        console.log("El dato ingresado no es un numero")
-                        continue
-                    }
-                }
                 break
             //cantidades totales
             case 4:
-                console.log("Cantidades: \n Remeras " + remeras +"\n Buzos "+ buzos + "\n Jeans "+ jeans);
+                stock.remera.cantidad
+                
+                let a= ropa.filter(cantidad=> cantidad.tipo=="remera")
+                console.log(a.length);
+                /* for (let clave in ropa){
+                
+                    if (ropa[clave].tipo =="remera"){
+                        a = 1 + a
+                        
+                    }
+                    
+                } */
+                console.log(a);
+                /* console.log("Cantidades: \n Remeras " + remeras +"\n Buzos "+ buzos + "\n Jeans "+ jeans); */
                 break
 
             //modificacion de precios
@@ -276,4 +279,48 @@ function cliente() {
     
     }while (validador == true);
 
+}
+
+function agregar(ropa) {
+    while (true) {
+        console.log(ropa);
+        let agregarRopa = parseInt(prompt("Ingrese la cantidad que quiere almacenar en " + ropa))
+
+        let posicion
+        if (ropa=="remera") {
+            posicion=0
+        }
+        else if (ropa=="buzo") {
+            posicion=1
+        }    
+        else if (ropa=="jean") {
+            posicion=2
+        }
+
+        if(!isNaN(agregarRopa) && agregarRopa>0){
+            for (let i = 1; i <= agregarRopa; i++) {
+                let talle = prompt("Ingrese el TALLE de "+ropa +": ")
+                let color= prompt("Ingrese el COLOR de "+ropa +": ")
+                let precio= prompt("Ingrese el PRECIO de "+ropa +": ")
+                let cantidad= prompt("Cantidad de "+ropa+" iguales: ")
+                
+                stock[posicion].remera.push({id:stock[posicion].remera.length+1,tipo:ropa,color:color,talle:talle,precio:precio,cantidad:cantidad})
+                console.log(stock[posicion]);
+            }
+            /* for (let clave in ropa){
+                if (ropa.tipo =="remera"){
+                    let a = a ++;
+                    console.log(a);
+                }
+                console.log(ropa[clave]);
+            } */
+            /* remeras = remeras + agregaRemeras
+            console.log("Cantidad de remeras " + remeras) */
+            break
+        }
+        else{
+            console.log("El dato ingresado no es un numero o es menor a cero")
+            continue
+        }
+    }
 }
