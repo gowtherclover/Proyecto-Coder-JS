@@ -82,7 +82,6 @@ function admin() {
                 break
             //cantidades totales
             case 4:
-                
                 mostrarStock()
 
                 
@@ -294,7 +293,7 @@ function agregar(ropa) {
                 let precio= prompt("Ingrese el PRECIO de "+ropa +": ")
                 let cantidad= prompt("Cantidad de "+ropa+" iguales: ")
                 
-                stock = new construir (ropa,
+                stock[posicion] = new construir (ropa,
                     color,
                     talle,
                     precio,
@@ -348,4 +347,5 @@ function construir(tipo,color,talle,precio,cantidad){
     this.talle=talle
     this.precio=precio
     this.cantidad=cantidad
+    console.log(stock);
 }
