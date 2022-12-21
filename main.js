@@ -1,26 +1,24 @@
 let usuario = 0
 
 let stock =[
-
-    {remera:[
-        {tipo:"remera",color:"azul",talle:"L",precio:3500,cantidad:5},
-        {tipo:"remera",color:"rojo",talle:"L",precio:3500,cantidad:5},
-        {tipo:"remera",color:"negro",talle:"XL",precio:3500,cantidad:5},
-        {tipo:"remera",color:"negro",talle:"M",precio:3500,cantidad:5},
-    ]},
-    {buzo:[
-        {tipo:"buzo",color:"azul",talle:"L",precio:5200,cantidad:5},
-        {tipo:"buzo",color:"rojo",talle:"L",precio:5200,cantidad:5},
-        {tipo:"buzo",color:"negro",talle:"XL",precio:5200,cantidad:5},
-        {tipo:"buzo",color:"negro",talle:"M",precio:5200,cantidad:5},
-    ]},
-    {jean:[
-        {tipo:"jean",color:"azul",talle:"36",precio:6500,cantidad:5},
-        {tipo:"jean",color:"rojo",talle:"50",precio:6500,cantidad:5},
-        {tipo:"jean",color:"negro",talle:"48",precio:6500,cantidad:5},
-        {tipo:"jean",color:"negro",talle:"44",precio:6500,cantidad:5},
-    ]}
+    {tipo:"remera",color:"azul",talle:"L",precio:3500,cantidad:5},
+    {tipo:"remera",color:"rojo",talle:"L",precio:3500,cantidad:5},
+    {tipo:"remera",color:"negro",talle:"XL",precio:3500,cantidad:5},
+    {tipo:"remera",color:"negro",talle:"M",precio:3500,cantidad:5},
+    {tipo:"buzo",color:"azul",talle:"L",precio:5200,cantidad:5},
+    {tipo:"buzo",color:"rojo",talle:"L",precio:5200,cantidad:5},
+    {tipo:"buzo",color:"negro",talle:"XL",precio:5200,cantidad:5},
+    {tipo:"buzo",color:"negro",talle:"M",precio:5200,cantidad:5},
+    {tipo:"jean",color:"azul",talle:"36",precio:6500,cantidad:5},
+    {tipo:"jean",color:"rojo",talle:"50",precio:6500,cantidad:5},
+    {tipo:"jean",color:"negro",talle:"48",precio:6500,cantidad:5},
+    {tipo:"jean",color:"negro",talle:"44",precio:6500,cantidad:5},
 ]
+/* for (const key of stock) {
+    console.log((key.tipo[0]).toUpperCase()+key.tipo.slice(1));
+}
+ */
+console.log(stock.filter(clave=>clave.tipo=="buzo"));
 
 let total = 0
 
@@ -84,78 +82,42 @@ function admin() {
             case 4:
                 mostrarStock()
 
-                
                 break
 
             //modificacion de precios
             case 5:
                 let valida=true
-                do {
-                    let precios=parseInt(prompt("A que unidad desea modificarle su valor \n 1. Remeras \n 2. Buzos \n 3. Jeans \n 4. Volver atras"))
-                    
-                    switch (precios) {
-                        case 1:
-                            while (true) {
-                                let precio1 = parseFloat(prompt("Ingrese el valor para las remeras \n Valor actual $" + precioReme))
-            
-                                if(!isNaN(precio1)){
-                                    precioReme = precio1
-                                    console.log("Nuevo valor de las remeras $" + precioReme)
-                                    break
-                                }
-                                else{
-                                    console.log("El dato ingresado no es un numero")
-                                    continue
-                                }
-                            }
-
-                            break;
-
-                        case 2:
-                            while (true) {
-                                let precio2 = parseFloat(prompt("Ingrese el valor para los buzos \n Valor actual $" + precioBuzos))
-            
-                                if(!isNaN(precio2)){
-                                    precioBuzos = precio2
-                                    console.log("Nuevo valor de los buzos $" + precioBuzos)
-                                    break
-                                }
-                                else{
-                                    console.log("El dato ingresado no es un numero")
-                                    continue
-                                }
-                            }
-                            
-                            break;
+                    do {
+                        let precios=parseInt(prompt("A que unidad desea modificarle su valor \n 1. Remeras \n 2. Buzos \n 3. Jeans \n 4. Volver atras"))
                         
-                        case 3:
-                            while (true) {
-                                let precio3 = parseFloat(prompt("Ingrese el valor para los jeans \n Valor actual $" + precioJeans))
-            
-                                if(!isNaN(precio3)){
-                                    precioJeans = precio3
-                                    console.log("Nuevo valor de los jeans $" + precioJeans)
-                                    break
-                                }
-                                else{
-                                    console.log("El dato ingresado no es un numero")
-                                    continue
-                                }
-                            }    
+                        switch (precios) {
+                            case 1:
 
-                            break;
-                        
-                        case 4:
-                            valida=false
-                            break
+                                modificarPrecio("remera")
+
+                                break;
+
+                            case 2:
+                                modificarPrecio("buzo")
+                                
+                                break;
                             
-                        default:
-                            console.log("Opcion incorrecta");
-                            break;
-                    }
-                    
-                }while (valida==true)
-                
+                            case 3:
+                                modificarPrecio(jean)
+
+                                break;
+                            
+                            case 4:
+                                valida=false
+                                break
+                                
+                            default:
+                                console.log("Opcion incorrecta");
+                                break;
+                        }
+                        
+                    }while (valida==true)
+
                 break
 
             case 6:
@@ -259,55 +221,26 @@ function cliente() {
     }while (validador == true);
 
 }
-
+//agrega objetos
 function agregar(ropa) {
     while (true) {
         let agregarRopa = parseInt(prompt("Ingrese la cantidad que quiere almacenar en " + ropa))
 
-        let posicion
-        let item
-        if (ropa=="remera") {
-            posicion=0
-            for (const key in stock[0]) {
-                item = key
-            }
-        }
-        else if (ropa=="buzo") {
-            posicion=1
-            for (const key in stock[1]) {
-                item = key
-            }
-        }    
-        else if (ropa=="jean") {
-            posicion=2
-            for (const key in stock[2]) {
-                item = key
-            }
-        }
-
         if(!isNaN(agregarRopa) && agregarRopa>0){
-            console.log(item);
+
             for (let i = 1; i <= agregarRopa; i++) {
                 let talle = prompt("Ingrese el TALLE de "+ropa +": ")
                 let color= prompt("Ingrese el COLOR de "+ropa +": ")
-                let precio= prompt("Ingrese el PRECIO de "+ropa +": ")
-                let cantidad= prompt("Cantidad de "+ropa+" iguales: ")
+                let precio= parseInt (prompt(`Ingrese el PRECIO de ${ropa} ${color}:`))
+                let cantidad= parseInt (prompt(`Cantidad de ${ropa} ${color} iguales: `))
                 
-                stock[posicion] = new construir (ropa,
+                let agrega = new construir (ropa,
                     color,
                     talle,
                     precio,
                     cantidad)
-
-                /* stock[posicion].item.push({
-                    id:stock[posicion].item.length+1,
-                    tipo:ropa,
-                    color:color,
-                    talle:talle,
-                    precio:precio,
-                    cantidad:cantidad
-                })
-                console.log(stock[posicion]); */
+                
+                stock.push(agrega)
             }
 
             break
@@ -318,27 +251,29 @@ function agregar(ropa) {
         }
     }
 }
+//muestra stock total por item
 function mostrarStock(){
     let R = 0
     let B = 0
     let J = 0
-    for (let i = 0; i < stock.length; i++) {
-        
-        for (const key in stock[i]) {
-            for (let index = 0; index < stock[i][key].length; index++) {
-                if (stock[i][key][index].tipo=="remera") {
-                    R=R+stock[i][key][index].cantidad
-                }
-                if (stock[i][key][index].tipo=="buzo") {
-                    B=B+stock[i][key][index].cantidad
-                }
-                if (stock[i][key][index].tipo=="jean") {
-                    J=J+stock[i][key][index].cantidad
-                }
-            }
+    let txtR= ""
+    let txtB= ""
+    let txtJ= ""
+    for (const key of stock) {
+        if (key.tipo=="remera") {
+            txtR= txtR+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+            R = R + key.cantidad
         }
-    }
-    console.log(`Cantidades: \n Remeras ${R} \n Buzos ${B} \n Jeans ${J}`);
+        else if(key.tipo=="buzo"){
+            txtB=txtB+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+            B = B +key.cantidad
+        }
+        else if(key.tipo=="jean"){
+            txtJ=txtJ+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+            J = J + key.cantidad
+        }
+     }
+    alert(`Cantidades:\n Remeras ${R} ${txtR} --------------------------------- \n Buzos ${B} ${txtB} ---------------------------------\n Jeans ${J} ${txtJ}`);
 }
 //constructora
 function construir(tipo,color,talle,precio,cantidad){
@@ -347,5 +282,36 @@ function construir(tipo,color,talle,precio,cantidad){
     this.talle=talle
     this.precio=precio
     this.cantidad=cantidad
-    console.log(stock);
 }
+//Modifica el precio
+function modificarPrecio(ropa){
+    let txt =""
+    for (const key of stock) {
+        if (key.tipo=="remera" && key.tipo==ropa) {
+            txt= txt+`\n${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} \nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+        }
+        else if(key.tipo=="buzo" && key.tipo==ropa){
+            txt=txt+`\n${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} \nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+        }
+        else if(key.tipo=="jean" && key.tipo==ropa){
+            txt=txt+`\n${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} \nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+        }
+    }
+ 
+    
+    while (true) {
+        let pregunta = prompt(`A que item desea cambiarle su valor: \n ${txt}`)
+        let precio1 = parseFloat(prompt(`Ingrese el valor para ${ropa} \n Valor actual $ `))
+
+        if(!isNaN(precio1)){
+            precioReme = precio1
+            console.log("Nuevo valor de las remeras $" + precioReme)
+            break
+        }
+        else{
+            console.log("El dato ingresado no es un numero")
+            continue
+        }
+    }
+}
+
