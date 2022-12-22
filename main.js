@@ -18,6 +18,9 @@ let stock =[
     console.log((key.tipo[0]).toUpperCase()+key.tipo.slice(1));
 }
  */
+for (const iterador of stock.filter(clave=>clave.tipo=="buzo")) {
+        console.log(iterador);
+}
 console.log(stock.filter(clave=>clave.tipo=="buzo"));
 
 let total = 0
@@ -103,7 +106,7 @@ function admin() {
                                 break;
                             
                             case 3:
-                                modificarPrecio(jean)
+                                modificarPrecio("jean")
 
                                 break;
                             
@@ -272,7 +275,7 @@ function mostrarStock(){
             txtJ=txtJ+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
             J = J + key.cantidad
         }
-     }
+    }
     alert(`Cantidades:\n Remeras ${R} ${txtR} --------------------------------- \n Buzos ${B} ${txtB} ---------------------------------\n Jeans ${J} ${txtJ}`);
 }
 //constructora
@@ -286,32 +289,53 @@ function construir(tipo,color,talle,precio,cantidad){
 //Modifica el precio
 function modificarPrecio(ropa){
     let txt =""
+    let i=0
+    //armo el texto para mostrar en el prompt
     for (const key of stock) {
+        
         if (key.tipo=="remera" && key.tipo==ropa) {
-            txt= txt+`\n${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} \nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+            i++
+            txt= txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
         else if(key.tipo=="buzo" && key.tipo==ropa){
-            txt=txt+`\n${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} \nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+            i++
+            txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
         else if(key.tipo=="jean" && key.tipo==ropa){
-            txt=txt+`\n${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} \nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+            i++
+            txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
     }
- 
     
     while (true) {
-        let pregunta = prompt(`A que item desea cambiarle su valor: \n ${txt}`)
-        let precio1 = parseFloat(prompt(`Ingrese el valor para ${ropa} \n Valor actual $ `))
-
-        if(!isNaN(precio1)){
-            precioReme = precio1
-            console.log("Nuevo valor de las remeras $" + precioReme)
-            break
+        let pregunta =parseInt(prompt(`A que item desea cambiarle su valor: \n ${txt}`))
+        console.log(i);
+        if(!isNaN(pregunta) && pregunta<=i){
+            arr=stock.filter(clave=>clave.tipo==ropa)
+            arrFijo=arr[pregunta-1]
+            while(true){
+                let precio1 = parseFloat(prompt(`Ingrese el valor para ${arrFijo.tipo} ${arrFijo.color} ${arrFijo.talle} \n Valor actual $${arrFijo.precio} `))
+                
+                if(!isNaN(precio1) && precio1>0){
+                    for (const iterador of stock.filter(clave=>clave.tipo==ropa)) {
+                        if (arrFijo==iterador) {
+                            iterador.precio=precio1
+                            console.log(`Nuevo valor de ${iterador.tipo} color ${iterador.color} talle ${iterador.talle} es ${iterador.precio}`)
+                            break
+                        }
+                    }
+                    break
+                }
+                else{
+                    console.log("El dato ingresado no es un numero o es menor a cero")
+                    continue
+                }
+            }
         }
         else{
-            console.log("El dato ingresado no es un numero")
+            console.log("El dato ingresado no es un numero o no esta dentro del rango de items")
             continue
         }
+        break
     }
 }
-
