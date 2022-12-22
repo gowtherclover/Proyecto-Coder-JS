@@ -17,16 +17,18 @@ let stock =[
 /* for (const key of stock) {
     console.log((key.tipo[0]).toUpperCase()+key.tipo.slice(1));
 }
- */
+
 for (const iterador of stock.filter(clave=>clave.tipo=="buzo")) {
         console.log(iterador);
 }
 console.log(stock.filter(clave=>clave.tipo=="buzo"));
+ */
 
 let total = 0
 
 let op=true
 let i = 1
+//login de admin o cliente
 do {
     usuario = parseInt(prompt("Seleccione el tipo de inicio de sesion \n 1. Admin \n 2. Cliente \n 3. Salir"));
 
@@ -138,82 +140,34 @@ function admin() {
 function cliente() {
     let validador = true
     do {
-        let stock = parseInt(prompt("Que desea comprar: \n 1. Remeras valor por unidad $" + precioReme +"\n 2. Buzos valor por unidad $"+precioBuzos +"\n 3. Jeans valor por unidad $"+precioJeans +"\n------------ \n 4. Consultar stock actual \n 5. Salir \n------------ \nTotal $" + total + "\n 6. Finalizar compra"))
+        let stock = parseInt(prompt(`Que desea comprar: \n 1. Remeras\n 2. Buzos\n 3. Jeans \n------------ \n 4. Consultar stock actual \n 5. Salir \n------------ \nTotal $${total}\n 6. Finalizar compra`))
     
         switch (stock) {
             case 1:
-                while (true) {
-                    let compraReme = prompt("Ingrese la cantidad de remeras a comprar \nStock actual "+remeras+"\nPara salir escriba 'volver' ")
-
-                    if(!isNaN(compraReme) && compraReme<= remeras){
-                        remeras = remeras - compraReme
-                        console.log("Cantidad de remeras a comprar = " + compraReme + "\nTotal $"+compraReme * precioReme)
-                        total = total + compraReme * precioReme
-                        break
-                    }
-                    else if (compraReme == "volver"){
-                        break   
-                    }
-                    
-                    else{
-                        console.log("El dato ingresado no es un numero o es mayor al stock disponible actual (cantidad "+remeras+")")
-                        continue
-                    }
-                }
-                
+                modificaCantidad("remera")                
                 break;
             case 2:
-                while (true) {
-                    let compraBuzos = prompt("Ingrese la cantidad de buzos a comprar \nStock actual "+buzos+"\nPara salir escriba 'volver' ")
+                modificaCantidad("buzo")
 
-                    if(!isNaN(compraBuzos) && compraBuzos<= buzos){
-                        buzos = buzos - compraBuzos
-                        console.log("Cantidad de buzos a comprar = " + compraBuzos + "\nTotal $"+compraBuzos * precioBuzos)
-                        total = total + compraBuzos * precioBuzos
-                        break
-                    }
-                    else if (compraBuzos == "volver"){
-                        break   
-                    }
-                    else{
-                        console.log("El dato ingresado no es un numero o es mayor al stock disponible actual (cantidad "+buzos+")")
-                        continue
-                    }
-                }
                 break;
             case 3:
-                while (true) {
-                    let compraJeans = prompt("Ingrese la cantidad de jeans a comprar \nStock actual "+jeans+"\nPara salir escriba 'volver' ")
+                modificaCantidad("jean")
 
-                    if(!isNaN(compraJeans) && compraJeans<= jeans){
-                        jeans = jeans - compraJeans
-                        console.log("Cantidad de jeans a comprar = " + compraJeans+ "\nTotal $"+compraJeans * precioJeans)
-                        total = total + compraJeans * precioJeans
-                        break
-                    }
-                    else if (compraJeans == "volver"){
-                        break   
-                    }
-                    else{
-                        console.log("El dato ingresado no es un numero o es mayor al stock disponible actual (cantidad "+jeans+")")
-                        continue
-                    }
-                }
                 break
             case 4:
-                console.log("Cantidades: \n Remeras " + remeras +"\n Buzos "+ buzos + "\n Jeans "+ jeans);
+                mostrarStock()
                 break
             case 5:
                 validador=false;
                 break
             case 6:
                 if (total != 0) {
-                    console.log("Usted gasto un total de $" + total);
+                    alert("Usted gasto un total de $" + total);
                     total = 0
                     break
                 }
                 else{
-                    console.log("No tiene articulos para comprar");
+                    alert("No tiene articulos para comprar");
                 }
                 break
             default:
@@ -309,7 +263,6 @@ function modificarPrecio(ropa){
     
     while (true) {
         let pregunta =parseInt(prompt(`A que item desea cambiarle su valor: \n ${txt}`))
-        console.log(i);
         if(!isNaN(pregunta) && pregunta<=i){
             arr=stock.filter(clave=>clave.tipo==ropa)
             arrFijo=arr[pregunta-1]
@@ -334,6 +287,62 @@ function modificarPrecio(ropa){
         }
         else{
             console.log("El dato ingresado no es un numero o no esta dentro del rango de items")
+            continue
+        }
+        break
+    }
+}
+//Sacar cantidades
+function modificaCantidad(ropa){
+    let txt =""
+    let i=0
+    //armo el texto para mostrar en el prompt
+    for (const key of stock) {
+        
+        if (key.tipo=="remera" && key.tipo==ropa) {
+            i++
+            txt= txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+        }
+        else if(key.tipo=="buzo" && key.tipo==ropa){
+            i++
+            txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+        }
+        else if(key.tipo=="jean" && key.tipo==ropa){
+            i++
+            txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
+        }
+    }
+    
+    while (true) {
+        let pregunta =parseInt(prompt(`Que item desea comprar: \n ${txt}`))
+        arr=stock.filter(clave=>clave.tipo==ropa)
+
+        if(!isNaN(pregunta) && pregunta<=i && arr[pregunta-1].cantidad>0){
+            arrFijo=arr[pregunta-1]
+            while(true){
+                let cantidad = parseInt(prompt(`Cuantos desea comprar de ${arrFijo.tipo} ${arrFijo.color} talle ${arrFijo.talle} \nCantidad actual: ${arrFijo.cantidad}`))
+                
+                if(!isNaN(cantidad) && cantidad>0 && cantidad<=arr[pregunta-1].cantidad){
+                    //itera en el arreglo filtrado de tipo de ropa
+                    for (const iterador of stock.filter(clave=>clave.tipo==ropa)) {
+                        //si el iterador es igual al arrFijo entra en la condicion
+                        if (arrFijo==iterador) {
+                            iterador.cantidad=iterador.cantidad - cantidad
+                            total=total + (cantidad * iterador.precio)
+                            alert(`Usted agregó al carrito ${cantidad} ${iterador.tipo} ${iterador.color} talle ${iterador.talle} por el precio de $${iterador.precio} c/u`)
+                            break
+                        }
+                    }
+                    break
+                }
+                else{
+                    console.log("El dato ingresado no es un numero o es menor a cero es superior al stock")
+                    continue
+                }
+            }
+        }
+        else{
+            console.log("El dato ingresado no es un numero o no esta dentro del rango de items o no hay stock disponible")
             continue
         }
         break
