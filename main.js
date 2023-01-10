@@ -1,27 +1,23 @@
 let usuario = 0
 
 let stock =[
-    {tipo:"remera",color:"azul",talle:"L",precio:3500,cantidad:5},
-    {tipo:"remera",color:"rojo",talle:"L",precio:3500,cantidad:5},
-    {tipo:"remera",color:"negro",talle:"XL",precio:3500,cantidad:5},
-    {tipo:"remera",color:"negro",talle:"M",precio:3500,cantidad:5},
-    {tipo:"buzo",color:"azul",talle:"L",precio:5200,cantidad:5},
-    {tipo:"buzo",color:"rojo",talle:"L",precio:5200,cantidad:5},
-    {tipo:"buzo",color:"negro",talle:"XL",precio:5200,cantidad:5},
-    {tipo:"buzo",color:"negro",talle:"M",precio:5200,cantidad:5},
-    {tipo:"jean",color:"azul",talle:"36",precio:6500,cantidad:5},
-    {tipo:"jean",color:"rojo",talle:"50",precio:6500,cantidad:5},
-    {tipo:"jean",color:"negro",talle:"48",precio:6500,cantidad:5},
-    {tipo:"jean",color:"negro",talle:"44",precio:6500,cantidad:5},
+    {tipo:"calza",img:"./img/calzas/calza-amarilla.png",color:"amarilla",talle:"S",precio:5200,cantidad:5},
+    {tipo:"calza",img:"./img/calzas/calza-negra.png",color:"negra",talle:"L",precio:5200,cantidad:5},
+    {tipo:"calza",img:"./img/calzas/calza-rosa.png",color:"rosa",talle:"XL",precio:5200,cantidad:5},
+    {tipo:"calza",img:"./img/calzas/calza-celeste.png",color:"celeste",talle:"M",precio:5200,cantidad:5},
+    {tipo:"top",img:"./img/tops/conjunto-amarillo.png",color:"amarillo",talle:"S",precio:6500,cantidad:5},
+    {tipo:"top",img:"./img/tops/conjunto-azul.png",color:"azul",talle:"L",precio:6500,cantidad:5},
+    {tipo:"top",img:"./img/tops/conjunto-lila.png",color:"lila",talle:"XL",precio:6500,cantidad:5},
+    {tipo:"top",img:"./img/tops/conjunto-rojo.png",color:"rojo",talle:"M",precio:6500,cantidad:5},
 ]
 /* for (const key of stock) {
     console.log((key.tipo[0]).toUpperCase()+key.tipo.slice(1));
 }
 
-for (const iterador of stock.filter(clave=>clave.tipo=="buzo")) {
+for (const iterador of stock.filter(clave=>clave.tipo=="calza")) {
         console.log(iterador);
 }
-console.log(stock.filter(clave=>clave.tipo=="buzo"));
+console.log(stock.filter(clave=>clave.tipo=="calza"));
  */
 
 let total = 0
@@ -29,7 +25,7 @@ let total = 0
 let op=true
 let i = 1
 //login de admin o cliente
-do {
+/* do {
     usuario = parseInt(prompt("Seleccione el tipo de inicio de sesion \n 1. Admin \n 2. Cliente \n 3. Salir"));
 
     switch (usuario) {
@@ -60,12 +56,12 @@ do {
             
             break;
     }
-}while(op==true)
+}while(op==true) */
 
 function admin() {
     let validador = true
     do {
-        let stock = parseInt(prompt("A que unidad desea agregarle cantidad: \n 1. Remeras \n 2. Buzos \n 3. Jeans \n------------ \n 4. Consultar stock actual \n 5. Modificar precios \n 6. Salir"))
+        let stock = parseInt(prompt("A que unidad desea agregarle cantidad: \n 1. Remeras \n 2. calzas \n 3. tops \n------------ \n 4. Consultar stock actual \n 5. Modificar precios \n 6. Salir"))
     
         switch (stock) {
             //cantidad de remeras
@@ -73,14 +69,14 @@ function admin() {
                 agregar("remera")
                 
                 break;
-            //cantidad de buzos
+            //cantidad de calzas
             case 2:
-                agregar("buzo")
+                agregar("calza")
 
                 break;
-            //cantidad de jeans
+            //cantidad de tops
             case 3:
-                agregar("jean")
+                agregar("top")
 
                 break
             //cantidades totales
@@ -93,7 +89,7 @@ function admin() {
             case 5:
                 let valida=true
                     do {
-                        let precios=parseInt(prompt("A que unidad desea modificarle su valor \n 1. Remeras \n 2. Buzos \n 3. Jeans \n 4. Volver atras"))
+                        let precios=parseInt(prompt("A que unidad desea modificarle su valor \n 1. Remeras \n 2. calzas \n 3. tops \n 4. Volver atras"))
                         
                         switch (precios) {
                             case 1:
@@ -103,12 +99,12 @@ function admin() {
                                 break;
 
                             case 2:
-                                modificarPrecio("buzo")
+                                modificarPrecio("calza")
                                 
                                 break;
                             
                             case 3:
-                                modificarPrecio("jean")
+                                modificarPrecio("top")
 
                                 break;
                             
@@ -140,18 +136,18 @@ function admin() {
 function cliente() {
     let validador = true
     do {
-        let stock = parseInt(prompt(`Que desea comprar: \n 1. Remeras\n 2. Buzos\n 3. Jeans \n------------ \n 4. Consultar stock actual \n 5. Salir \n------------ \nTotal $${total}\n 6. Finalizar compra`))
+        let stock = parseInt(prompt(`Que desea comprar: \n 1. Remeras\n 2. calzas\n 3. tops \n------------ \n 4. Consultar stock actual \n 5. Salir \n------------ \nTotal $${total}\n 6. Finalizar compra`))
     
         switch (stock) {
             case 1:
                 modificaCantidad("remera")                
                 break;
             case 2:
-                modificaCantidad("buzo")
+                modificaCantidad("calza")
 
                 break;
             case 3:
-                modificaCantidad("jean")
+                modificaCantidad("top")
 
                 break
             case 4:
@@ -221,16 +217,16 @@ function mostrarStock(){
             txtR= txtR+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
             R = R + key.cantidad
         }
-        else if(key.tipo=="buzo"){
+        else if(key.tipo=="calza"){
             txtB=txtB+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
             B = B +key.cantidad
         }
-        else if(key.tipo=="jean"){
+        else if(key.tipo=="top"){
             txtJ=txtJ+`\nColor: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
             J = J + key.cantidad
         }
     }
-    alert(`Cantidades:\n Remeras ${R} ${txtR} --------------------------------- \n Buzos ${B} ${txtB} ---------------------------------\n Jeans ${J} ${txtJ}`);
+    alert(`Cantidades:\n Remeras ${R} ${txtR} --------------------------------- \n calzas ${B} ${txtB} ---------------------------------\n tops ${J} ${txtJ}`);
 }
 //constructora
 function construir(tipo,color,talle,precio,cantidad){
@@ -251,11 +247,11 @@ function modificarPrecio(ropa){
             i++
             txt= txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
-        else if(key.tipo=="buzo" && key.tipo==ropa){
+        else if(key.tipo=="calza" && key.tipo==ropa){
             i++
             txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
-        else if(key.tipo=="jean" && key.tipo==ropa){
+        else if(key.tipo=="top" && key.tipo==ropa){
             i++
             txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
@@ -303,11 +299,11 @@ function modificaCantidad(ropa){
             i++
             txt= txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
-        else if(key.tipo=="buzo" && key.tipo==ropa){
+        else if(key.tipo=="calza" && key.tipo==ropa){
             i++
             txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
-        else if(key.tipo=="jean" && key.tipo==ropa){
+        else if(key.tipo=="top" && key.tipo==ropa){
             i++
             txt=txt+`\nItem nº${i} ${(key.tipo[0]).toUpperCase()+key.tipo.slice(1)} Color: ${key.color} Talle: ${key.talle} Precio: $${key.precio} Cantidad: ${key.cantidad}`
         }
@@ -347,4 +343,23 @@ function modificaCantidad(ropa){
         }
         break
     }
+}
+
+const cardDiv = document.querySelector('#cards')
+
+for (const producto of stock) {
+    let div = document.createElement('div')
+    div.innerHTML =`
+        <div class="card" style="width: 18rem;">
+            <img src=${producto.img} class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${producto.tipo} ${producto.color}</h5>
+                <p class="card-text"> Talle ${producto.talle}</p>
+                <p class="card-text"> $${producto.precio}</p>
+                <p class="card-text"> Cantidad disponible: ${producto.cantidad}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>`;    
+
+    cardDiv.appendChild(div)
 }
