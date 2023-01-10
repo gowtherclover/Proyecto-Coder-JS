@@ -349,8 +349,8 @@ const cardDiv = document.querySelector('#cards')
 
 for (const producto of stock) {
     let div = document.createElement('div')
+    div.className =`card col-12 col-md-3 m-1`
     div.innerHTML =`
-        <div class="card" style="width: 18rem;">
             <img src=${producto.img} class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${producto.tipo} ${producto.color}</h5>
