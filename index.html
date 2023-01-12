@@ -10,13 +10,13 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg ">
+        <nav class="navbar navbar-expand-md ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img class="logo" src="./img/logo-malka-sin-fondo.png" alt="logo-malka"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Inicio</a>
@@ -35,11 +35,21 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </li>
+                        <li>
+                            <button type="button" class="btn btn-light position-relative">
+                                <img src="./img/carrito-de-compras.png" alt="logo-carrito">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    99
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                        </li>
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                        <button class="btn btn-outline-dark" type="submit">Buscar</button>
                     </form>
+                    
                 </div>
             </div>
             </nav>

@@ -345,6 +345,7 @@ function modificaCantidad(ropa){
     }
 }
 
+//Creo las cards de cada objeto
 const cardDiv = document.querySelector('#cards')
 
 for (const producto of stock) {
@@ -357,9 +358,30 @@ for (const producto of stock) {
                 <p class="card-text"> Talle ${producto.talle}</p>
                 <p class="card-text"> $${producto.precio}</p>
                 <p class="card-text"> Cantidad disponible: ${producto.cantidad}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="#" class="btn btn-primary" id="btn-${producto.tipo}-${producto.color}">Comprar</a>
             </div>
         </div>`;    
 
     cardDiv.appendChild(div)
 }
+
+//agrego al carrito
+carrito = []
+for (const valor of stock) {
+    const btn = document.getElementById(`btn-${valor.tipo}-${valor.color}`)
+    console.log(btn);
+    btn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        //pusheo el objeto al array carrito
+        carrito.push(valor)
+        //guardo en LS
+        localStorage.setItem("carrito",JSON.stringify(carrito))
+        //llamo a la funcion para pintar el carrito
+        pintaCarrito(valor)
+    })
+}
+
+
+
+
+
