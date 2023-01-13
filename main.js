@@ -346,15 +346,18 @@ function modificaCantidad(ropa){
 }
 
 //Creo las cards de cada objeto
-const cardDiv = document.querySelector('#cards')
+const cardDiv = document.querySelector('#cards'),
+    tabla = document.querySelector(".modal-carrito"),
+    contador = document.getElementById("contador-carrito")
+    finalizar = document.getElementById("comprar")
 
 for (const producto of stock) {
     let div = document.createElement('div')
     div.className =`card col-12 col-md-3 m-1`
     div.innerHTML =`
-            <img src=${producto.img} class="card-img-top" alt="...">
+            <img src=${producto.img} class="card-img-top" alt="card-${producto.tipo}-${producto.color}">
             <div class="card-body">
-                <h5 class="card-title">${producto.tipo} ${producto.color}</h5>
+                <h5 class="card-title">${producto.tipo.toUpperCase()} ${producto.color.toUpperCase()}</h5>
                 <p class="card-text"> Talle ${producto.talle}</p>
                 <p class="card-text"> $${producto.precio}</p>
                 <p class="card-text"> Cantidad disponible: ${producto.cantidad}</p>
@@ -365,21 +368,85 @@ for (const producto of stock) {
     cardDiv.appendChild(div)
 }
 
-//agrego al carrito
-carrito = []
+//si hay datos en el LS se agregan al carrito si no hay nada en LS el carrito queda vacio
+//let carrito= JSON.parse(localStorage.getItem("carrito")) || [];
+if (localStorage.getItem("carrito")){
+    carrito=JSON.parse(localStorage.getItem("carrito"))
+    pintarCarrito(carrito)
+}
+else{
+    carrito=[]
+    contador.innerHTML="0"
+}
+
+//agrego al carrito haciendo click en comprar cada item
 for (const valor of stock) {
     const btn = document.getElementById(`btn-${valor.tipo}-${valor.color}`)
-    console.log(btn);
     btn.addEventListener('click',(e)=>{
         e.preventDefault();
         //pusheo el objeto al array carrito
-        carrito.push(valor)
+        carrito.push(valor) 
+        //cantCarrito(valor,carrito)
         //guardo en LS
-        localStorage.setItem("carrito",JSON.stringify(carrito))
+        guardarLS(carrito)
         //llamo a la funcion para pintar el carrito
-        pintaCarrito(valor)
+        pintarCarrito(carrito)
     })
 }
+//Modifico cantidad del producto a agregar
+function cantCarrito(valor,carrito) {
+    console.log(valor);
+    for (const clave of carrito) {
+        console.log(clave);
+        if (valor.tipo != clave.tipo && valor.color != clave.color) {
+            valor.cantidad = 1
+            console.log("clave:",valor);
+            console.log("carrito:",clave);
+            
+            carrito.push(valor) 
+        }
+        else if(valor.tipo == clave.tipo && valor.color == clave.color){
+            clave.cantidad += 1
+            carrito.push(clave)
+        }
+    }
+        
+}
+
+//Pinto el carrito
+function pintarCarrito(array) {
+    let filas
+    tabla.innerHTML="";
+
+    for (const producto of array) {
+        //creo una fila por cada objeto
+        filas=`
+            <tr>
+                <th scope="row">${producto.cantidad}</th>
+                <td><img src=${producto.img} class="card-img-top" alt="carrito-${producto.tipo}-${producto.color}" style="width:40%"></td>
+                <td>${producto.tipo.toUpperCase()} ${producto.color.toUpperCase()}</td>
+                <td>${producto.talle}</td>
+                <td>$${producto.precio}</td>
+            </tr>`;
+
+        tabla.innerHTML += filas
+    }    
+
+    contador.innerHTML="";
+    let cont
+    cont = (JSON.parse(localStorage.getItem("carrito"))).length 
+    contador.innerHTML=`${cont}`
+        
+}
+//Guarda en el LocalStorage
+function guardarLS(carrito) {
+    localStorage.setItem("carrito",JSON.stringify(carrito))
+}
+
+//Finaliza la compra
+finalizar.addEventListener('click',()=>
+    localStorage.removeItem("carrito"),
+)
 
 
 

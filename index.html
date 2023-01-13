@@ -36,13 +36,46 @@
                             </ul>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-light position-relative">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-light position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <img src="./img/carrito-de-compras.png" alt="logo-carrito">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    99
-                                    <span class="visually-hidden">unread messages</span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contador-carrito">
+                                    <!-- numero ingresado por JS -->
                                 </span>
                             </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Productos del carrito</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <hr>
+                                        <div class="modal-body">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Cantidad</th>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Ropa</th>
+                                                        <th scope="col">Talle</th>
+                                                        <th scope="col">Precio</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="modal-carrito">
+                                                    <!-- armo la tabla desde el JS -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-success" id="comprar" onclick="window.location.reload();">Comprar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
