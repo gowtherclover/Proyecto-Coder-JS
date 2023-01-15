@@ -61,4 +61,5 @@ let stock =[
     talle:"M",
     precio:6500,
     cantidad:5},
+
 ]

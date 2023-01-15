@@ -2,12 +2,15 @@
 const cardDiv = document.querySelector('#cards'),
     tabla = document.querySelector(".modal-carrito"),
     contador = document.getElementById("contador-carrito")
+    listaProductos = document.getElementById("listaProductos")
     precioTotal= document.getElementById("total")
     finalizar = document.getElementById("comprar")
+    buscar = document.getElementById("buscar")
 
 //si hay datos en el LS se agregan al carrito si no hay nada en LS el carrito queda vacio
 //let carrito= JSON.parse(localStorage.getItem("carrito")) || [];
 let carrito = [];
+let arrayTipo=[];
 if (localStorage.getItem("carrito")){
     carrito=JSON.parse(localStorage.getItem("carrito"));
     stock=JSON.parse(localStorage.getItem("inventario"));
@@ -17,7 +20,8 @@ else{
     contador.innerHTML="0"
 }
 
-function pintarDOM(){
+function pintarDOM(stock){
+    cardDiv.innerHTML=""
     stock.forEach(producto => {
 
     let div = document.createElement('div')
@@ -39,13 +43,17 @@ function pintarDOM(){
     const btn = document.getElementById(`btn-${producto.id}`)
     const pCant= document.getElementsByClassName("cantidades")
 
+    if (arrayTipo.includes(producto.tipo)==false) {
+        arrayTipo.push(producto.tipo)
+    }
+
     if (producto.cantidad == 0) {
-        botonComprar(pCant,producto,btn)
+        botonComprar(pCant,producto,btn,stock)
     }
     
     btn.addEventListener('click',()=>{
             //pusheo el objeto al array carrito
-            modificaStock(producto,pCant,btn)
+            modificaStock(producto,pCant,btn,stock)
             cantCarrito(producto)
             //llamo a la funcion para pintar el carrito
             pintarCarrito()
@@ -54,9 +62,29 @@ function pintarDOM(){
         })
     });
 }
+//Armo la lista de productos desplegable
+function pintarLista(){
+
+    arrayTipo.forEach(tipos => {
+        let li = document.createElement('li')
+        let p = document.createElement('p')
+        p.className=("dropdown-item")
+
+        li.appendChild(p)
+        p.innerText=` ${tipos.toUpperCase()} `
+        listaProductos.appendChild(li)
+
+        p.addEventListener('click',()=>{
+            let arrayNombres = stock.filter(elemento =>{
+                return elemento.tipo.includes(tipos)
+            })
+            pintarDOM(arrayNombres)
+        })
+    });
+}
 
 //Modifico la cantidad de stock
-function modificaStock(producto,pCant,btn) {
+function modificaStock(producto,pCant,btn,stock) {
 
     let indiceStock = stock.findIndex((el)=>{if(el.id === producto.id){return true}})
 
@@ -69,15 +97,15 @@ function modificaStock(producto,pCant,btn) {
         pCant[indiceStock].innerText = `Cantidad disponible: ${stock[indiceStock].cantidad}`
     }
     else{
-        botonComprar(pCant,producto,btn)
+        botonComprar(pCant,producto,btn,stock)
 
     }
 }
 
-function botonComprar(pCant,producto,btn) {
+function botonComprar(pCant,producto,btn,stock) {
 
     let indiceStock = stock.findIndex((el)=>{if(el.id === producto.id){return true}})
-
+    console.log(stock);
     pCant[indiceStock].innerText=""
     pCant[indiceStock].classList.add("text-danger")
     pCant[indiceStock].innerText = `No hay stock disponible`
@@ -143,7 +171,6 @@ function pintarCarrito() {
 
     precioTotal.innerHTML="";
     const total = carrito.reduce((acumulador,elemento)=>acumulador + (elemento.precio * elemento.cantCarrito),0)
-    console.log(total);
     precioTotal.innerHTML=`<p>Total $ ${total}</p>`
 }
 //Guarda en el LocalStorage
@@ -158,8 +185,26 @@ finalizar.addEventListener('click',()=>
     localStorage.removeItem("stock"),
 )
 
+//Buscar ropa
+function buscarRopa(filtro){
 
-pintarDOM()
+    let buscar = stock.filter(elemento =>{
+        return elemento.tipo.includes(filtro) || elemento.color.includes(filtro)
+    })
+
+    return buscar;
+}
+
+//Recibe datos desde el input buscar
+buscar.addEventListener('keyup',()=>{
+    let input = buscarRopa(buscar.value)
+
+    pintarDOM(input)
+})
+
+
+pintarDOM(stock)
+pintarLista()
 pintarCarrito()
 
 
