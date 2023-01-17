@@ -25,7 +25,7 @@ function pintarDOM(stock){
     stock.forEach(producto => {
 
     let div = document.createElement('div')
-    div.className =`card col-12 col-md-3 m-1 align-items-`
+    div.className =`card col-12 col-md-3 m-1 col-lg-2 align-items-`
     div.innerHTML =`
             <img src=${producto.img} class="card-img-top" alt="card-${producto.tipo}-${producto.color}">
             <div class="card-body d-flex flex-column justify-content-between">
