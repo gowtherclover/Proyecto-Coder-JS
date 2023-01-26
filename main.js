@@ -5,7 +5,9 @@ const cardDiv = document.querySelector('#cards'),
     listaProductos = document.getElementById("listaProductos"),
     precioTotal= document.getElementById("total"),
     finalizar = document.getElementById("comprar"),
-    buscar = document.getElementById("buscar")
+    buscar = document.getElementById("buscar"),
+    sumarCant=document.querySelector(".sumarCant"),
+    restarCant=document.querySelector(".restarCant")
     
 
 //si hay datos en el LS se agregan al carrito si no hay nada en LS el carrito queda vacio
@@ -22,7 +24,6 @@ const PedirStock = async () =>{
     pintarCarrito()
 
     //Recibe datos desde el input buscar
-    console.log(buscar);
     buscar.addEventListener('keyup',()=>{
         console.log(buscar);
         let input = buscarRopa(buscar.value,stock)
@@ -84,9 +85,12 @@ function pintarDOM(stock){
             //llamo a la funcion para pintar el carrito
             pintarCarrito()
             //guardo en LS
-            guardarLS()
+            guardarLS(stock)
         })
+    
+    
     });
+    
 }
 //Armo la lista de productos desplegable
 function pintarLista(){
@@ -211,7 +215,7 @@ function pintarCarrito() {
     precioTotal.innerHTML=`<p>Total $ ${total}</p>`
 }
 //Guarda en el LocalStorage
-function guardarLS() {
+function guardarLS(stock) {
     localStorage.setItem("carrito",JSON.stringify(carrito))
     localStorage.setItem("inventario",JSON.stringify(stock))
 }
