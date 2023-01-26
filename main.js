@@ -1,14 +1,38 @@
 //Creo las cards de cada objeto
 const cardDiv = document.querySelector('#cards'),
     tabla = document.querySelector(".modal-carrito"),
-    contador = document.getElementById("contador-carrito")
-    listaProductos = document.getElementById("listaProductos")
-    precioTotal= document.getElementById("total")
-    finalizar = document.getElementById("comprar")
+    contador = document.getElementById("contador-carrito"),
+    listaProductos = document.getElementById("listaProductos"),
+    precioTotal= document.getElementById("total"),
+    finalizar = document.getElementById("comprar"),
     buscar = document.getElementById("buscar")
+    
 
 //si hay datos en el LS se agregan al carrito si no hay nada en LS el carrito queda vacio
 //let carrito= JSON.parse(localStorage.getItem("carrito")) || [];
+
+
+const PedirStock = async () =>{
+    const res = await
+    fetch("./data.json")
+    const stock = await res.json()
+    
+    pintarDOM(stock)
+    pintarLista()
+    pintarCarrito()
+
+    //Recibe datos desde el input buscar
+    console.log(buscar);
+    buscar.addEventListener('keyup',()=>{
+        console.log(buscar);
+        let input = buscarRopa(buscar.value,stock)
+
+        pintarDOM(input)
+    })
+}
+
+PedirStock()
+
 let carrito = [];
 let arrayTipo=[];
 if (localStorage.getItem("carrito")){
@@ -23,31 +47,33 @@ else{
 function pintarDOM(stock){
     cardDiv.innerHTML=""
     stock.forEach(producto => {
+    
+    const {img,tipo,color,talle,precio,cantidad,id} = producto
 
     let div = document.createElement('div')
     div.className =`card col-12 col-md-3 m-1 col-lg-2 align-items-`
     div.innerHTML =`
-            <img src=${producto.img} class="card-img-top" alt="card-${producto.tipo}-${producto.color}">
+            <img src=${img} class="card-img-top" alt="card-${tipo}-${color}">
             <div class="card-body d-flex flex-column justify-content-between">
-                <h5 class="card-title">${producto.tipo.toUpperCase()} ${producto.color.toUpperCase()}</h5>
-                <p class="card-text"> Talle ${producto.talle}</p>
-                <p class="card-text"> $${producto.precio}</p>
-                <p class="card-text cantidades"> Cantidad disponible: ${producto.cantidad}</p>
-                <button class="btn btn-primary"  id="btn-${producto.id}">Comprar</button>
+                <h5 class="card-title">${tipo.toUpperCase()} ${color.toUpperCase()}</h5>
+                <p class="card-text"> Talle ${talle}</p>
+                <p class="card-text"> $${precio}</p>
+                <p class="card-text cantidades"> Cantidad disponible: ${cantidad}</p>
+                <button class="btn btn-primary"  id="btn-${id}">Comprar</button>
             </div>
         </div>`;
         
     cardDiv.appendChild(div)
 
     //agrego al carrito haciendo click en comprar cada item
-    const btn = document.getElementById(`btn-${producto.id}`)
+    const btn = document.getElementById(`btn-${id}`)
     const pCant= document.getElementsByClassName("cantidades")
 
-    if (arrayTipo.includes(producto.tipo)==false) {
-        arrayTipo.push(producto.tipo)
+    if (arrayTipo.includes(tipo)==false) {
+        arrayTipo.push(tipo)
     }
 
-    if (producto.cantidad == 0) {
+    if (cantidad == 0) {
         botonComprar(pCant,producto,btn,stock)
     }
     
@@ -149,15 +175,26 @@ function pintarCarrito() {
     tabla.innerHTML="";
 
     for (const producto of carrito) {
+        const {cantCarrito,img,tipo,color,talle,precio} = producto
         //creo una fila por cada objeto
         filas=`
             <tr>
-                <th scope="row">${producto.cantCarrito}</th>
-                <td><img src=${producto.img} class="card-img-top" alt="carrito-${producto.tipo}-${producto.color}" style="width:40%"></td>
-                <td>${producto.tipo.toUpperCase()} ${producto.color.toUpperCase()}</td>
-                <td>${producto.talle}</td>
-                <td>$${producto.precio}</td>
-            </tr>`;
+                <th scope="row" class="d-flex flex-column align-items-center">
+                    <img src=${img} class="card-img-top tabla_img" alt="carrito-${tipo}-${color}">
+                    <div class="d-flex justify-content-around w-50">
+                        <button class="btn btn-body border rounded p-1 d-inline-block restarCant">➖</button>
+                        ${cantCarrito}
+                        <button class="btn btn-body border rounded p-1 d-inline-block sumarCant">➕</button>
+                    </div>
+                </th>
+                <td colspan="2">
+                    ${tipo.toUpperCase()} ${color.toUpperCase()} 
+                    <br>
+                    Talle: ${talle}
+                </td>
+                <td>$${precio}</td>
+            </tr>
+            `;
 
         tabla.innerHTML += filas
     }
@@ -186,7 +223,7 @@ finalizar.addEventListener('click',()=>
 )
 
 //Buscar ropa
-function buscarRopa(filtro){
+function buscarRopa(filtro,stock){
 
     let buscar = stock.filter(elemento =>{
         return elemento.tipo.includes(filtro) || elemento.color.includes(filtro)
@@ -194,17 +231,3 @@ function buscarRopa(filtro){
 
     return buscar;
 }
-
-//Recibe datos desde el input buscar
-buscar.addEventListener('keyup',()=>{
-    let input = buscarRopa(buscar.value)
-
-    pintarDOM(input)
-})
-
-
-pintarDOM(stock)
-pintarLista()
-pintarCarrito()
-
-

@@ -17,4 +17,13 @@
         right: 0;
         margin-right: 1rem;
     }
+    .tabla_img{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .tabla_img{
+        width: 50%;
+    }
 }
