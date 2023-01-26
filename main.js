@@ -6,10 +6,7 @@ const cardDiv = document.querySelector('#cards'),
     precioTotal= document.getElementById("total"),
     finalizar = document.getElementById("comprar"),
     buscar = document.getElementById("buscar"),
-    sumarCant=document.querySelector(".sumarCant"),
-    restarCant=document.querySelector(".restarCant")
-    
-
+    pCant= document.getElementsByClassName("cantidades")
 //si hay datos en el LS se agregan al carrito si no hay nada en LS el carrito queda vacio
 //let carrito= JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -25,25 +22,38 @@ const PedirStock = async () =>{
 
     //Recibe datos desde el input buscar
     buscar.addEventListener('keyup',()=>{
-        console.log(buscar);
         let input = buscarRopa(buscar.value,stock)
 
         pintarDOM(input)
     })
 }
 
-PedirStock()
-
 let carrito = [];
 let arrayTipo=[];
 if (localStorage.getItem("carrito")){
     carrito=JSON.parse(localStorage.getItem("carrito"));
-    stock=JSON.parse(localStorage.getItem("inventario"));
 }
 else{
     carrito=[]
     contador.innerHTML="0"
 }
+let stockLS = JSON.parse(localStorage.getItem("inventario"))
+if (stockLS) {
+    pintarDOM(stockLS)
+    pintarLista()
+    pintarCarrito()
+
+    //Recibe datos desde el input buscar
+    buscar.addEventListener('keyup',()=>{
+        let input = buscarRopa(buscar.value,stockLS)
+
+        pintarDOM(input)
+    })
+}
+else{
+    PedirStock()
+}
+
 
 function pintarDOM(stock){
     cardDiv.innerHTML=""
@@ -68,7 +78,6 @@ function pintarDOM(stock){
 
     //agrego al carrito haciendo click en comprar cada item
     const btn = document.getElementById(`btn-${id}`)
-    const pCant= document.getElementsByClassName("cantidades")
 
     if (arrayTipo.includes(tipo)==false) {
         arrayTipo.push(tipo)
@@ -80,14 +89,13 @@ function pintarDOM(stock){
     
     btn.addEventListener('click',()=>{
             //pusheo el objeto al array carrito
-            modificaStock(producto,pCant,btn,stock)
-            cantCarrito(producto)
+            modificaStock(producto,stock,pCant,btn)
+            cantidadCarrito(producto)
             //llamo a la funcion para pintar el carrito
-            pintarCarrito()
+            pintarCarrito(stock)
             //guardo en LS
             guardarLS(stock)
         })
-    
     
     });
     
@@ -114,7 +122,7 @@ function pintarLista(){
 }
 
 //Modifico la cantidad de stock
-function modificaStock(producto,pCant,btn,stock) {
+function modificaStock(producto,stock,pCant,btn) {
 
     let indiceStock = stock.findIndex((el)=>{if(el.id === producto.id){return true}})
 
@@ -135,7 +143,6 @@ function modificaStock(producto,pCant,btn,stock) {
 function botonComprar(pCant,producto,btn,stock) {
 
     let indiceStock = stock.findIndex((el)=>{if(el.id === producto.id){return true}})
-    console.log(stock);
     pCant[indiceStock].innerText=""
     pCant[indiceStock].classList.add("text-danger")
     pCant[indiceStock].innerText = `No hay stock disponible`
@@ -159,7 +166,7 @@ function constructorCarrito(producto) {
 }
 
 //Modifico cantidad del producto a agregar
-function cantCarrito(producto) {
+function cantidadCarrito(producto) {
     //busca dentro del array carrito si el ID de carrito y de valor coinciden
     let indice = carrito.findIndex((elemento)=>{if(elemento.id === producto.id){return true}})
     // si da -1 lo pushea al carrito con 1 cantidad
@@ -174,21 +181,20 @@ function cantCarrito(producto) {
 }
 
 //Pinto el carrito
-function pintarCarrito() {
+function pintarCarrito(stock) {
     let filas
     tabla.innerHTML="";
-
     for (const producto of carrito) {
-        const {cantCarrito,img,tipo,color,talle,precio} = producto
+        const {cantCarrito,img,tipo,color,talle,precio,id} = producto
         //creo una fila por cada objeto
         filas=`
             <tr>
                 <th scope="row" class="d-flex flex-column align-items-center">
                     <img src=${img} class="card-img-top tabla_img" alt="carrito-${tipo}-${color}">
                     <div class="d-flex justify-content-around w-50">
-                        <button class="btn btn-body border rounded p-1 d-inline-block restarCant">➖</button>
+                        <button class="btn btn-body border rounded p-1" id="restarCant">➖</button>
                         ${cantCarrito}
-                        <button class="btn btn-body border rounded p-1 d-inline-block sumarCant">➕</button>
+                        <button class="btn btn-body border rounded p-1" id="sumarCant">➕</button>
                     </div>
                 </th>
                 <td colspan="2">
@@ -201,6 +207,23 @@ function pintarCarrito() {
             `;
 
         tabla.innerHTML += filas
+
+        const sumarCant=document.querySelector('#sumarCant'),
+            restarCant=document.getElementById("restarCant")
+        sumarCant.addEventListener('click',()=>{
+            stockLS.forEach(el => {
+                const btn = document.getElementById(`btn-${el.id}`)
+                //pusheo el objeto al array carrito
+                modificaStock(producto,stockLS,pCant,btn)
+                cantidadCarrito(producto)
+                //llamo a la funcion para pintar el carrito
+                pintarCarrito(stock)
+                //guardo en LS
+                guardarLS(stock)
+            });
+                
+                
+        })
     }
 
     contador.innerHTML="";
@@ -213,6 +236,7 @@ function pintarCarrito() {
     precioTotal.innerHTML="";
     const total = carrito.reduce((acumulador,elemento)=>acumulador + (elemento.precio * elemento.cantCarrito),0)
     precioTotal.innerHTML=`<p>Total $ ${total}</p>`
+
 }
 //Guarda en el LocalStorage
 function guardarLS(stock) {
@@ -221,16 +245,16 @@ function guardarLS(stock) {
 }
 
 //Finaliza la compra
-finalizar.addEventListener('click',()=>
-    localStorage.removeItem("carrito"),
-    localStorage.removeItem("stock"),
-)
+finalizar.addEventListener('click',()=>{
+    localStorage.removeItem("carrito")
+    localStorage.removeItem("inventario")
+})
 
 //Buscar ropa
 function buscarRopa(filtro,stock){
-
+    
     let buscar = stock.filter(elemento =>{
-        return elemento.tipo.includes(filtro) || elemento.color.includes(filtro)
+        return elemento.tipo.includes(filtro.toLowerCase()) || elemento.color.includes(filtro.toLowerCase()) || elemento.talle.includes(filtro.toUpperCase())
     })
 
     return buscar;
