@@ -1,13 +1,35 @@
 *{
     margin:0;
     padding:0;
-    box-sizing:border-box;}
+    box-sizing:border-box;
+    font-family: 'Nunito', sans-serif;}
+
+a{text-decoration:none}
+ul{list-style:none;padding:0}
 
 .navbar{
-    background-color: rgb(199, 164, 124);
+    background-color: #c7a47c;
 }
 .logo{
     width: 100px;
+}
+
+.navbar-nav{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+main{background-image:url(../img/fondo.svg);
+    background-repeat:repeat;
+    background-size: cover;
+    background-size:100%}
+
+.card h5{
+    font-size: 1rem;
+}
+
+footer{
+    background-color: #c7a47c;
 }
 
 @media screen and (min-width: 768px){
@@ -26,4 +48,12 @@
     .tabla_img{
         width: 50%;
     }
+}
+
+.failure-icon{
+    color: red;
+}
+
+.success-icon{
+    color:green
 }

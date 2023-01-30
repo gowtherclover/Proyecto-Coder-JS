@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ropa deportiva de la mejor calidad para ellas ¡Haz click para ver más!">
+    <meta name="keywords" content="calzas,short,capri,biker,deportiva,mujer">
+    <!-- Fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- estilos locales -->
+    <link rel="stylesheet" href="./css/css/all.min.css">
     <link rel="stylesheet" href="./css/estilos.css">
-    <title>Document</title>
+    <title>MALKA</title>
 </head>
 <body>
     <header>
@@ -34,7 +44,7 @@
                     <button type="button" class="btn btn-light position-absolute top-0 end-0 me-3 mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <img src="./img/carrito-de-compras.png" alt="logo-carrito">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contador-carrito">
-                            <!-- numero ingresado por JS -->
+                            0<!-- numero ingresado por JS -->
                         </span>
                     </button>
                     
@@ -47,7 +57,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table table-striped table-hover table-bordered">
+                                    <table class="table table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="w-auto">Cantidad</th>
@@ -67,9 +77,13 @@
                                             <!-- ingreso el total por JS -->
                                         </p>
                                     </div>
-                                    <div class="flex-end">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-success" id="comprar" onclick="window.location.reload();">Comprar</button>
+                                    <div class=" d-md-flex d justify-content-between">
+                                        <div>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-danger" id="vaciar">Vaciar carrito</button>
+                                        </div>
+                                        <button type="button" class="btn btn-success mt-3 mt-md-0" id="comprar">Continuar al pago</button> 
+                                        <!-- onclick="window.location.reload();" -->
                                     </div>
                                     
                                 </div>
@@ -82,17 +96,71 @@
     </header>
     <main>
         <div class="container-fluid">
-            <h2 class="text-center">Tienda MALKA</h2>
-            <hr>
-            <div class="row justify-content-around" id="cards">
+            <div class="row justify-content-around pt-5" id="cards">
 
             </div>
         </div>
     </main>
-    <footer>
-
+    <footer class="text-center text-lg-start text-muted">
+        <section class="d-flex align-items-center justify-content-center justify-content-lg-between p-4 border-bottom text-light">
+            <div class="me-5 d-none d-lg-block">
+                <span>Contactanos con nuestras redes sociales:</span>
+            </div>
+            <div class="d-flex align-items-end justify-content-center">
+                <div>
+                    <a href="" class="me-4 text-reset">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="" class="me-4 text-reset">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container text-center text-md-start mt-5 text-light">
+                <div class="row mt-3">
+                    <div class="col-md-4 mx-auto mb-4">
+                        <h6 class="fw-bold mb-4">AYUDA</h6>
+                        <p>
+                            <a href="#" class="text-reset">Escribinos</a>
+                        </p>
+                        <p>
+                            <a href="#" class="text-reset">FAQ</a>
+                        </p>
+                        <p>
+                            <a href="#" class="text-reset">Terminos y condiciones</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Contactanos</h6>
+                        <p><i class="fas fa-home me-3"></i> Evergreen Terrace, 742 CP, Springfield</p>
+                        <p><i class="fas fa-envelope me-3"></i>Info@malka.com</p>
+                        <p><i class="fas fa-phone me-3"></i> + 54 9 261 321 43</p>
+                        <p><i class="fas fa-print me-3"></i> + 54 9 263 567 83</p>
+                    </div>
+                </div>
+        </div>
+        </section>
+        <div class="text-center p-4 text-light copyright" style="background-color: rgba(0, 0, 0, 0.05);">
+            <!-- pinto con JS -->
+        </div>
     </footer>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
